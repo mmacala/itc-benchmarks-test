@@ -2,7 +2,7 @@ language: c
 compiler:
   - gcc
   
-script: ./make
+script: ./bootstrap
 
 before_install:
   - test -n $CC && unset CC
