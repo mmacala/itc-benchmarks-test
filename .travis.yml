@@ -1,8 +1,6 @@
 language: c
 compiler:
   - gcc
-  
-script: ./bootstrap
 
 before_install:
   - test -n $CC && unset CC
@@ -12,12 +10,13 @@ addons:
   sonarcloud:
     organization: "mmacala"
     token:
-      secure: "**************************" # encrypted value of your token
+      secure: "FA1AGQb4xKw3jlXre7Lq47HuIXjV3IFwOpJrj8y4F9CKr8B5O6b/2V3GyCfy6EFF+HNHBbyZNVC65xxIbOehtERX0CUOpPXBL+AM5l080T59ldaMjsBilBshNudif9c8TJcuu+gaGI4Ev2rres5D1rvSiCz08vOQJs8M/44E9xTiB+FtDWNvjYX4Bdz9rrbg3LspgjBttFk0NMahk74shN+8wpkOa0zMfh2xWZZyrTY6Y4TGw9Linwx5Q9ufh80XAKvR5hGb/vYptG9KEMxi2jGsoUy9ddxBBvFNBJkJ2dleDEwMFiZ+Y0gBLVmYWyRihVR11PuOvabWxlYTcSOuhVqEvtK0cyqTYQMivq7BPlDWnBPckSZKCZ2lcQuAgqF3s+yDaGwjlYIBV1UgqXhxR6KwuEWfNINcYKt9PxQkuiq9JQhhYbsCe0VNyxRyatXFOOA51x2/JvV75LJc2WASMoe30ltTQ94PHMKbjYFkejdJku5zQhC955eiL3ZL955jMrl7i3kH6feZGPDXVrIIl0B1xwFsj5dIG8k6NigEU3oJ2W/e5x3yzZAAzXjTOScxglL9Spw+PtbqWk+axlxMfbQpwRaFZRPA46APU/oSznR1Bj3dBbi0o63S1V1yO+fhy4I3tLSsa5P/bmsclEkgvQa4dfOpWQWxzD+nqbB/z1E="
+
 
 script:
   # Wraps the compilation with the Build Wrapper to generate configuration (used
   # later by the SonarScanner) into the "bw-output" folder
-  - build-wrapper-linux-x86-64 --out-dir bw-output <your clean build command>
+  - build-wrapper-linux-x86-64 --out-dir bw-output ./bootstrap
   # And finally run the SonarCloud analysis - read the "sonar-project.properties"
   # file to see the specific configuration
   - sonar-scanner -Dsonar.cfamily.build-wrapper-output=bw-output
