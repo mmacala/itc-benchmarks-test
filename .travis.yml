@@ -2,7 +2,7 @@ language: c
 compiler:
   - gcc
   
-script: make
+script: ./make
 
 before_install:
   - test -n $CC && unset CC
