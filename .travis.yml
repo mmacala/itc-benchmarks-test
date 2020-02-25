@@ -6,3 +6,4 @@ script: ./bootstrap
 
 before_install:
   - test -n $CC && unset CC
+  - chmod +x bootstrap
