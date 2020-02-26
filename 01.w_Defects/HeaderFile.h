@@ -10,9 +10,9 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
-#include "pthread.h"
+#include <pthread.h>
 #include <ctype.h>
-#include "unistd.h"
+#include <unistd.h>
 #include <limits.h>
 
 extern int idx, sink;
