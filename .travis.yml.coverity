@@ -20,7 +20,7 @@ addons:
   coverity_scan:
     project:
       name: "mmacala/itc-benchmarks-test"
-      description: "<Your project description here>"
+      description: ""
     notification_email: marco.macala@gmail.com
     build_command_prepend: ""
     build_command: "make"
