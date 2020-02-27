@@ -7,7 +7,6 @@ before_install:
   - test -n $CC && unset CC
   - chmod +x bootstrap
   - ./bootstrap
-  - ./configure
   - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
 
    
