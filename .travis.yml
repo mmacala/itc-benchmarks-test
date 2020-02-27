@@ -1,0 +1,42 @@
+dist: trusty
+language: c
+compiler:
+  - gcc
+
+before_install:
+  - test -n $CC && unset CC
+  - chmod +x bootstrap
+  - ./bootstrap
+  - ./configure
+  - echo -n | openssl s_client -connect https://scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+  
+
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "O2njRTDeHL2nyaYDKGGIdusjS3n251L8L9Dyc93NEfV7ZEmEAYtiJ5p5dzQdAKICuIwgbd9eKc81pTb0db5M1VGSE0Zw1ks34whCkJ7We/tBTN9I6JywlP3kmqwra4vCvuxu6VmbC8LZ+kGvVKd8INImrJEModhaLz6JhnSUOkMMEFFOS6MHiRysKu0tgl5TnBBmAAwUAmNbEJlqOFut9EvHds1aGolwL89dCRgevUsL8zWBwCFepasKVLBy5mB3+JtGRNElthjdb2qfgliqdupQmIYziSQpYd9UF7JINFltUIqmSz8T7YEGcTuR3nfpPptl+5NcQkAkg+534ru3F6Cr3TlU9iA9kJsPohU8s7mZbHJew8J6DzRkLrQtgc6utLOQR0w9uXZR2bsGxg4NEstga5SR6rcLYifZ8Vc4UdNvef+oCQ4YGpn5feMNB5udFTcOZhzP65+CxPWsiLpQC9eQI7HltYT5kNsWxY4rXIBIHHRP7049jvtSNVgiW59EtaNsbJjCM02gl3QEqcXfyMXCG4fwiNZ7BJKhkGMjAaYfkGATvegbAf8mMMF/FICdvtmQRxQTKgLImS9PFUJxwCuaXv2AZHpHpUpH9KvjNgLDb2J1jU/zXnGAhY6QdbahDz2HF8omWSRvLdSpVghMQsnnGFXyIayCJ00pw5IHpck="
+
+addons:
+  coverity_scan:
+    project:
+      name: "mmacala/itc-benchmarks-test"
+      description: "<Your project description here>"
+    notification_email: marco.macala@gmail.com
+    build_command_prepend: ""
+    build_command: "make"
+    branch_pattern: coverity_scan
+  sonarcloud:
+    organization: "mmacala"
+    token:
+      secure: "X8vp0EkKCp2UYFigXn0UYyIa/0z43BY/Anu9LRh3tmIUoNGsGQkh8o4wWfTl6HHZaCn+03cGJYfhjOLx5Hvl/mPo2RI54wRvWVgJZUG6SkWE/vbxh+P5t0kIeL4lOZzLJijHgXcqd3/jXplLHUao8UQCbWAxWR5dmU/85Phq0VPUMTEc/ODvUOw89C3/eUYfjwteeMVMX5DVGnVWaJ99iGh6HACIaGhT4E2QyS4BS0jOgH47s40KQQ3WeiFfQ2BjQDVirKRKfJusnAcjkzvptHFvzLnJbkU7YXU3wnYd6XLqGKoq/Xc+ouK9J5ZqyqDFV5N78NcEx5wo44ID7nOCFBI7Zi5N9N83KM2/zE5Cb/CLKY3ZTB4N10FvY46lh8RXr5Q3tscFNHAgsCsk3QUJp+TSFUf+j7jMA3oYCGnPMv1v1iMmqpu9DyoLwXbSrXIS+vE6zRWrunOB8RI0OYA4YKZgr7gdX4cezAOokpiHpVlLqMVeauCrj1MgTs/s7DsKYzpjgIUWVgHgBPNBVFlDFq9dlgtHB7wu6t3xYtTs2te1L0UozGeVwVlpoH9yLpqYYIEnoSoaFB6BS8BSngPXZ6fTpcEBX66k7Ehh02OQZW0z0oA4S7qzB4GQMpSa4i9TaThs5MANzhoqdedbjMnTbjWBmvCTN9YkTjgxljCuMIc="
+    
+
+script:
+  # Wraps the compilation with the Build Wrapper to generate configuration (used
+  # later by the SonarScanner) into the "bw-output" folder
+  - build-wrapper-linux-x86-64 --out-dir bw-output make
+  # And finally run the SonarCloud analysis - read the "sonar-project.properties"
+  # file to see the specific configuration
+  - sonar-scanner -Dsonar.cfamily.build-wrapper-output=bw-output
+
