@@ -1,4 +1,4 @@
-dist: linux
+dist: trusty
 language: c
 compiler:
   - gcc
